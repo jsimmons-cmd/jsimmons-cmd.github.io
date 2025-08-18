@@ -12,9 +12,10 @@
         <header>
             <h1 class="glitch" data-text="ARASAKA">ARASAKA</h1>
             <p class="subtitle">コーポレート・メッセージング・プラットフォーム</p>
+            <button id="signout-button">LOGOUT</button>
         </header>
         <div id="chat-box">
-            <!-- Messages will be dynamically inserted here -->
+            <!-- Messages will be dynamically inserted here by script.js -->
         </div>
         <div id="input-area">
             <input type="text" id="message-input" placeholder="Enter your message...">
@@ -22,13 +23,13 @@
         </div>
     </div>
 
-    <!-- Firebase SDK Scripts -->
-    <!-- Make sure the version numbers here match what Firebase gives you -->
+    <!-- Firebase SDK Scripts (Version 8) -->
+    <!-- It's important these are loaded before your script.js -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
     
-    <!-- Your Script File -->
+    <!-- Your Application Script -->
     <script src="script.js"></script>
 </body>
 </html>
