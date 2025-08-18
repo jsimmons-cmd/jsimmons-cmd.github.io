@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARASAKA | サ イ バ ー チ ャ ッ ト</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="container">
+        <header>
+            <h1 class="glitch" data-text="ARASAKA">ARASAKA</h1>
+            <p class="subtitle">コーポレート・メッセージング・プラットフォーム</p>
+        </header>
+        <div id="chat-box">
+            <!-- Messages will be dynamically inserted here -->
+            <div class="message received">
+                <span class="username">System</span>
+                <p>Welcome to the ARASAKA network. Secure line established.</p>
+                <span class="timestamp">20:43</span>
+            </div>
+            <div class="message sent">
+                <span class="username">You</span>
+                <p>Connection confirmed. Ready for transmission.</p>
+                <span class="timestamp">20:45</span>
+            </div>
+        </div>
+        <div id="input-area">
+            <input type="text" id="message-input" placeholder="Enter your message...">
+            <button id="send-button">送信</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
