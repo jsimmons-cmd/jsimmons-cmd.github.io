@@ -8,8 +8,8 @@ body {
     height: 100vh;
     margin: 0;
     overflow: hidden;
-    /* REPLACE THE LINE BELOW */
-    background-image: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1511447333015-45b65e60f6d5?q=80&w=2155&auto=format&fit=crop'); /* This is a new, working image */
+    /* Corrected Background Image */
+    background-image: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1511447333015-45b65e60f6d5?q=80&w=2155&auto=format&fit=crop');
     background-size: cover;
     background-position: center;
 }
@@ -31,6 +31,7 @@ header {
     text-align: center;
     padding: 20px;
     border-bottom: 2px solid #00ffcc;
+    position: relative; /* Added for positioning signout button */
 }
 
 .glitch {
@@ -80,7 +81,6 @@ header {
     flex-direction: column;
 }
 
-/* Custom scrollbar for chat-box */
 #chat-box::-webkit-scrollbar {
     width: 10px;
 }
@@ -171,96 +171,77 @@ header {
     border: 1px solid #00ffcc;
 }
 
-/* Glitch animation keyframes */
+/* --- Authentication and Logout Styling --- */
+
+#signout-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: transparent;
+    border: 1px solid #ff0055;
+    color: #ff0055;
+    padding: 8px 15px;
+    font-family: 'Orbitron', sans-serif;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: none; /* Hidden by default, shown by JS on login */
+}
+
+#signout-button:hover {
+    background: #ff0055;
+    color: #0a0a0a;
+    box-shadow: 0 0 10px #ff0055;
+}
+
+#auth-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 300px;
+}
+
+#auth-container input {
+    background-color: rgba(10, 25, 47, 0.9);
+    border: 1px solid #00ffcc;
+    border-radius: 5px;
+    color: #00ffcc;
+    padding: 12px;
+    font-family: 'Noto Sans JP', sans-serif;
+    text-align: center;
+}
+
+#auth-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+#auth-buttons button {
+    flex-grow: 1;
+    background-color: #00ffcc;
+    color: #0a0a0a;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+}
+
+#auth-error {
+    color: #ff0055;
+    height: 20px;
+    font-size: 0.9em;
+}
+
+/* --- Glitch Animation Keyframes --- */
 @keyframes glitch {
-    0% {
-        transform: translate(0);
-    }
-    20% {
-        transform: translate(-3px, 3px);
-    }
-    40% {
-        transform: translate(-3px, -3px);
-    }
-    60% {
-        transform: translate(3px, 3px);
-    }
-    80% {
-        transform: translate(3px, -3px);
-    }
-    to {
-        transform: translate(0);
-    }
+    0% { transform: translate(0); } 20% { transform: translate(-3px, 3px); } 40% { transform: translate(-3px, -3px); } 60% { transform: translate(3px, 3px); } 80% { transform: translate(3px, -3px); } to { transform: translate(0); }
 }
 
 @keyframes glitch-anim-1 {
-    0% {
-        clip-path: polygon(0 2%, 100% 2%, 100% 5%, 0 5%);
-    }
-    10% {
-        clip-path: polygon(0 15%, 100% 15%, 100% 20%, 0 20%);
-    }
-    20% {
-        clip-path: polygon(0 10%, 100% 10%, 100% 20%, 0 20%);
-    }
-    30% {
-        clip-path: polygon(0 30%, 100% 30%, 100% 35%, 0 35%);
-    }
-    40% {
-        clip-path: polygon(0 5%, 100% 5%, 100% 10%, 0 10%);
-    }
-    50% {
-        clip-path: polygon(0 25%, 100% 25%, 100% 30%, 0 30%);
-    }
-    60% {
-        clip-path: polygon(0 15%, 100% 15%, 100% 20%, 0 20%);
-    }
-    70% {
-        clip-path: polygon(0 35%, 100% 35%, 100% 40%, 0 40%);
-    }
-    80% {
-        clip-path: polygon(0 20%, 100% 20%, 100% 25%, 0 25%);
-    }
-    90% {
-        clip-path: polygon(0 40%, 100% 40%, 100% 45%, 0 45%);
-    }
-    100% {
-        clip-path: polygon(0 50%, 100% 50%, 100% 55%, 0 55%);
-    }
+    0% { clip-path: polygon(0 2%, 100% 2%, 100% 5%, 0 5%); } 10% { clip-path: polygon(0 15%, 100% 15%, 100% 20%, 0 20%); } 20% { clip-path: polygon(0 10%, 100% 10%, 100% 20%, 0 20%); } 30% { clip-path: polygon(0 30%, 100% 30%, 100% 35%, 0 35%); } 40% { clip-path: polygon(0 5%, 100% 5%, 100% 10%, 0 10%); } 50% { clip-path: polygon(0 25%, 100% 25%, 100% 30%, 0 30%); } 60% { clip-path: polygon(0 15%, 100% 15%, 100% 20%, 0 20%); } 70% { clip-path: polygon(0 35%, 100% 35%, 100% 40%, 0 40%); } 80% { clip-path: polygon(0 20%, 100% 20%, 100% 25%, 0 25%); } 90% { clip-path: polygon(0 40%, 100% 40%, 100% 45%, 0 45%); } 100% { clip-path: polygon(0 50%, 100% 50%, 100% 55%, 0 55%); }
 }
 
 @keyframes glitch-anim-2 {
-    0% {
-        clip-path: polygon(0 65%, 100% 65%, 100% 70%, 0 70%);
-    }
-    10% {
-        clip-path: polygon(0 80%, 100% 80%, 100% 85%, 0 85%);
-    }
-    20% {
-        clip-path: polygon(0 75%, 100% 75%, 100% 80%, 0 80%);
-    }
-    30% {
-        clip-path: polygon(0 90%, 100% 90%, 100% 95%, 0 95%);
-    }
-    40% {
-        clip-path: polygon(0 70%, 100% 70%, 100% 75%, 0 75%);
-    }
-    50% {
-        clip-path: polygon(0 85%, 100% 85%, 100% 90%, 0 90%);
-    }
-    60% {
-        clip-path: polygon(0 80%, 100% 80%, 100% 85%, 0 85%);
-    }
-    70% {
-        clip-path: polygon(0 95%, 100% 95%, 100% 100%, 0 100%);
-    }
-    80% {
-        clip-path: polygon(0 85%, 100% 85%, 100% 90%, 0 90%);
-    }
-    90% {
-        clip-path: polygon(0 90%, 100% 90%, 100% 95%, 0 95%);
-    }
-    100% {
-        clip-path: polygon(0 95%, 100% 95%, 100% 100%, 0 100%);
-    }
+    0% { clip-path: polygon(0 65%, 100% 65%, 100% 70%, 0 70%); } 10% { clip-path: polygon(0 80%, 100% 80%, 100% 85%, 0 85%); } 20% { clip-path: polygon(0 75%, 100% 75%, 100% 80%, 0 80%); } 30% { clip-path: polygon(0 90%, 100% 90%, 100% 95%, 0 95%); } 40% { clip-path: polygon(0 70%, 100% 70%, 100% 75%, 0 75%); } 50% { clip-path: polygon(0 85%, 100% 85%, 100% 90%, 0 90%); } 60% { clip-path: polygon(0 80%, 100% 80%, 100% 85%, 0 85%); } 70% { clip-path: polygon(0 95%, 100% 95%, 100% 100%, 0 100%); } 80% { clip-path: polygon(0 85%, 100% 85%, 100% 90%, 0 90%); } 90% { clip-path: polygon(0 90%, 100% 90%, 100% 95%, 0 95%); } 100% { clip-path: polygon(0 95%, 100% 95%, 100% 100%, 0 100%); }
 }
