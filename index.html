@@ -1,143 +1,34 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const messageInput = document.getElementById('message-input');
-    const sendButton = document.getElementById('send-button');
-    const chatBox = document.getElementById('chat-box');
-    const loginContainer = document.createElement('div');
-    let currentUser = null;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARASAKA | サ イ バ ー チ ャ ッ ト</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="container">
+        <header>
+            <h1 class="glitch" data-text="ARASAKA">ARASAKA</h1>
+            <p class="subtitle">コーポレート・メッセージング・プラットフォーム</p>
+        </header>
+        <div id="chat-box">
+            <!-- Messages will be dynamically inserted here -->
+        </div>
+        <div id="input-area">
+            <input type="text" id="message-input" placeholder="Enter your message...">
+            <button id="send-button">送信</button>
+        </div>
+    </div>
 
-    // --- PASTE YOUR FIREBASE CONFIGURATION HERE ---
-    const firebaseConfig = {
-      apiKey: "AIzaSyD0onGSUcaOq04TOQKt6k4EHrmNDXpR2pY",
-      authDomain: "arasaka-34814.firebaseapp.com",
-      databaseURL: "https://arasaka-34814-default-rtdb.firebaseio.com/",
-      projectId: "arasaka-34814",
-      storageBucket: "arasaka-34814.firebasestorage.app",
-      messagingSenderId: "921180123654",
-      appId: "1:921180123654:web:108d02c8efdb34df818987"
-    };
-
-    // --- Initialize Firebase ---
-    const app = firebase.initializeApp(firebaseConfig);
-    const database = firebase.database();
-    const auth = firebase.auth();
-    const messagesRef = database.ref('messages');
-
-    // --- Authentication ---
-    auth.onAuthStateChanged(user => {
-        if (user) {
-            // User is signed in.
-            currentUser = user;
-            // Hide login UI and show chat
-            document.body.removeChild(loginContainer);
-            listenForMessages();
-        } else {
-            // User is signed out.
-            currentUser = null;
-            // Show login UI
-            showLoginUI();
-        }
-    });
-
-    // --- Anonymous Login ---
-    const signInAnonymously = () => {
-        auth.signInAnonymously().catch(error => {
-            console.error("Anonymous sign-in failed:", error);
-        });
-    };
-
-    const showLoginUI = () => {
-        loginContainer.innerHTML = `
-            <div id="login-container">
-                <h2 class="glitch" data-text="AUTHENTICATE">AUTHENTICATE</h2>
-                <p>Connect to the ARASAKA secure network.</p>
-                <button id="login-button">CONNECT</button>
-            </div>
-        `;
-        loginContainer.style.position = 'fixed';
-        loginContainer.style.top = '0';
-        loginContainer.style.left = '0';
-        loginContainer.style.width = '100%';
-        loginContainer.style.height = '100%';
-        loginContainer.style.backgroundColor = 'rgba(10, 10, 10, 0.95)';
-        loginContainer.style.display = 'flex';
-        loginContainer.style.justifyContent = 'center';
-        loginContainer.style.alignItems = 'center';
-        loginContainer.style.textAlign = 'center';
-        loginContainer.style.zIndex = '1000';
-        document.body.appendChild(loginContainer);
-
-        document.getElementById('login-button').addEventListener('click', signInAnonymously);
-    }
-
-
-    // --- Function to send a message ---
-    const sendMessage = () => {
-        const messageText = messageInput.value.trim();
-
-        if (messageText && currentUser) {
-            const newMessage = {
-                text: messageText,
-                senderId: currentUser.uid,
-                // Using a server timestamp ensures time is consistent
-                timestamp: firebase.database.ServerValue.TIMESTAMP
-            };
-            messagesRef.push(newMessage);
-
-            messageInput.value = '';
-        }
-    };
-
-    // --- Function to display a message ---
-    const displayMessage = (message, senderId) => {
-        const messageElement = document.createElement('div');
-        const type = senderId === currentUser.uid ? 'sent' : 'received';
-        messageElement.classList.add('message', type);
-
-        const usernameElement = document.createElement('span');
-        usernameElement.classList.add('username');
-        usernameElement.textContent = senderId === currentUser.uid ? 'You' : `User-${senderId.substring(0, 6)}`;
-
-        const textElement = document.createElement('p');
-        textElement.textContent = message.text;
-
-        const timestampElement = document.createElement('span');
-        timestampElement.classList.add('timestamp');
-        const messageTime = new Date(message.timestamp);
-        timestampElement.textContent = `${messageTime.getHours()}:${String(messageTime.getMinutes()).padStart(2, '0')}`;
-
-        messageElement.appendChild(usernameElement);
-        messageElement.appendChild(textElement);
-        messageElement.appendChild(timestampElement);
-
-        chatBox.appendChild(messageElement);
-        // Scroll to the bottom to see the new message
-        chatBox.scrollTop = chatBox.scrollHeight;
-    };
-
-
-    // --- Listen for new messages from Firebase ---
-    const listenForMessages = () => {
-        // Clear old messages before listening
-        chatBox.innerHTML = '';
-        messagesRef.on('child_added', (snapshot) => {
-            const message = snapshot.val();
-            if (message) {
-              displayMessage(message, message.senderId);
-            }
-        });
-    };
-
-    // --- Event Listeners for sending messages ---
-    sendButton.addEventListener('click', sendMessage);
-
-    messageInput.addEventListener('keypress', (event) => {
-        if (event.key === 'Enter') {
-            sendMessage();
-        }
-    });
-
-    // Initial check for user state
-    if (!currentUser) {
-        showLoginUI();
-    }
-});
+    <!-- Firebase SDK Scripts -->
+    <!-- Make sure the version numbers here match what Firebase gives you -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    
+    <!-- Your Script File -->
+    <script src="script.js"></script>
+</body>
+</html>
