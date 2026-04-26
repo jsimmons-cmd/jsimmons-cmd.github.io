@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PolyAI — Prediction Market Intelligence</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=JetBrains+Mono:wght@300;400;500;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-brand">
+      <span class="brand-name">POLY<span class="accent">AI</span></span>
+      <span class="brand-tag">// PREDICTION INTELLIGENCE</span>
+    </div>
+    <div class="nav-center" id="tickerBar">
+      <span class="ticker-pulse"></span>
+      <span class="ticker-text" id="tickerText">Connecting to Polymarket...</span>
+    </div>
+    <div class="nav-actions">
+      <button class="btn-ghost" id="refreshBtn" title="Refresh Markets">↺ REFRESH</button>
+      <button class="btn-key" id="apiKeyBtn">⚡ API KEY</button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-left">
+      <div class="hero-eyebrow">CLAUDE-POWERED EDGE</div>
+      <h1 class="hero-title">BEAT<br>THE<br>MARKET<span class="accent">.</span></h1>
+      <p class="hero-sub">Real-time AI analysis of Polymarket prediction markets. Claude searches the web, finds the edge, sizes the bet.</p>
+      <div class="hero-stats" id="heroStats">
+        <div class="hero-stat">
+          <span class="hs-val" id="statMarkets">—</span>
+          <span class="hs-label">Markets</span>
+        </div>
+        <div class="hs-divider"></div>
+        <div class="hero-stat">
+          <span class="hs-val" id="statVolume">—</span>
+          <span class="hs-label">Volume</span>
+        </div>
+        <div class="hs-divider"></div>
+        <div class="hero-stat">
+          <span class="hs-val">Sonnet</span>
+          <span class="hs-label">AI Engine</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-right">
+      <canvas id="chartCanvas" width="480" height="280"></canvas>
+      <div class="chart-overlay">
+        <div class="co-label">SIMULATED EDGE DISCOVERY</div>
+        <div class="co-line"></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main class="main">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-section">
+        <div class="sb-label">SEARCH</div>
+        <input type="text" class="sb-input" id="searchInput" placeholder="Filter markets...">
+      </div>
+      <div class="sidebar-section">
+        <div class="sb-label">SORT BY</div>
+        <select class="sb-select" id="sortBy">
+          <option value="volume">Volume ↓</option>
+          <option value="liquidity">Liquidity ↓</option>
+          <option value="endDate">Closing Soon</option>
+          <option value="price">Highest YES Price</option>
+        </select>
+      </div>
+      <div class="sidebar-section">
+        <div class="sb-label">MIN VOLUME</div>
+        <select class="sb-select" id="minVolume">
+          <option value="0">Any Volume</option>
+          <option value="1000">$1K+</option>
+          <option value="10000">$10K+</option>
+          <option value="100000">$100K+</option>
+          <option value="1000000">$1M+</option>
+        </select>
+      </div>
+      <button class="btn-load" id="loadMoreBtn">LOAD MORE</button>
+      <div class="sb-divider"></div>
+      <div class="how-it-works">
+        <div class="sb-label">HOW IT WORKS</div>
+        <div class="hiw-step"><span class="hiw-num">01</span><span>Browse live Polymarket markets</span></div>
+        <div class="hiw-step"><span class="hiw-num">02</span><span>Click any market to analyze</span></div>
+        <div class="hiw-step"><span class="hiw-num">03</span><span>Claude searches web for context</span></div>
+        <div class="hiw-step"><span class="hiw-num">04</span><span>Get probability estimate + edge</span></div>
+        <div class="hiw-step"><span class="hiw-num">05</span><span>Trade on Polymarket directly</span></div>
+      </div>
+    </aside>
+
+    <!-- MARKETS -->
+    <section class="markets-section">
+      <div class="markets-header">
+        <h2 class="markets-title">LIVE MARKETS</h2>
+        <span class="markets-count" id="marketCount">—</span>
+      </div>
+      <div class="market-grid" id="marketGrid">
+        <div class="loading-state" id="loadingState">
+          <div class="loader-ring"></div>
+          <p>Fetching Polymarket data...</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ANALYSIS PANEL (slide-in) -->
+  <div class="panel-overlay" id="panelOverlay">
+    <div class="analysis-panel" id="analysisPanel">
+      <div class="ap-header">
+        <div class="ap-title-group">
+          <span class="ap-eyebrow">CLAUDE ANALYSIS</span>
+          <button class="ap-close" id="panelClose">✕</button>
+        </div>
+        <div class="ap-question" id="apQuestion">—</div>
+      </div>
+      <div class="ap-body" id="apBody">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- API KEY MODAL -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+      <div class="modal-hdr">
+        <span class="modal-title">ANTHROPIC API KEY</span>
+        <button class="modal-x" id="modalClose">✕</button>
+      </div>
+      <p class="modal-desc">Your key is stored in <code>localStorage</code> and sent only to <code>api.anthropic.com</code>. Never to any third-party server.</p>
+      <input type="password" class="key-input" id="keyInput" placeholder="sk-ant-api03-...">
+      <div class="modal-actions">
+        <button class="btn-save" id="saveKeyBtn">SAVE KEY</button>
+        <a class="modal-link" href="https://console.anthropic.com" target="_blank">Get a key →</a>
+      </div>
+      <div class="key-status" id="keyStatus"></div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
